@@ -3,18 +3,32 @@ use chrono::{DateTime, Local};
 use crate::task::Task;
 
 #[derive(Debug)]
-struct DoneTask {
+pub struct DoneTask {
     id: i64,
     title: String,
-    due_date: DateTime<Local>,
+    done_date: DateTime<Local>,
+}
+
+impl DoneTask {
+    pub fn new(id: i64, title: impl Into<String>) -> Self {
+        Self {
+            id,
+            title: title.into(),
+            done_date: Local::now(),
+        }
+    }
+
+    fn done_date(&self) -> &DateTime<Local> {
+        &self.done_date
+    }
 }
 
 impl Task for DoneTask {
-    fn get_id() -> i64 {
-        todo!()
+    fn id(&self) -> &i64 {
+        &self.id
     }
 
-    fn get_title() -> String {
-        todo!()
+    fn title(&self) -> &String {
+        &self.title
     }
 }

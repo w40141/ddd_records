@@ -1,4 +1,4 @@
 pub trait Task {
-    fn get_id() -> i64;
-    fn get_title() -> String;
+    fn id(&self) -> &i64;
+    fn title(&self) -> &String;
 }
