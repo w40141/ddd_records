@@ -25,22 +25,21 @@ impl Task for PostponableUndoneTask {
 }
 
 impl PostponableUndoneTask {
-    fn postpone(&self) -> Box<impl UndoneTask> {
-        let r = if self.postpone_count < 3 {
-            Box::new(PostponableUndoneTask {
+    fn postpone(&self) -> Box<dyn UndoneTask> {
+        if self.postpone_count < 3 {
+            return Box::new(PostponableUndoneTask {
                 id: self.id,
                 title: self.title.to_owned(),
                 due_date: self.due_date,
                 postpone_count: self.postpone_count + 1,
             })
         } else {
-            Box::new(UndoneTaskWithDeadline::new(
+            return Box::new(UndoneTaskWithDeadline::new(
                 self.id,
-                self.title,
+                self.title.to_owned(),
                 &self.due_date,
             ))
         };
-        r
     }
 }
 
